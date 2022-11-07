@@ -1,0 +1,37 @@
+.playground{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    height: 100%;
+    background-color: #fff;
+    grid-gap: 5px;
+    aspect-ratio: 1 / 1;
+}
+.playground__item{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10%;
+
+    background-color: #000;
+    border: none;
+    aspect-ratio: 1 / 1;
+}
+
+.playground__item svg{
+    position: relative;
+    will-change: transform;
+    transform: translate3d(0,0,0);
+    animation: appear .2s cubic-bezier(0.5,1.8,0.1,1.1)
+}
+
+@keyframes appear {
+    from {
+        transform: scale(0.3)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}

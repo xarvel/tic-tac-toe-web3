@@ -1,0 +1,13 @@
+.game{
+    height: calc(100% - 72px);
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.game__playground{
+
+}

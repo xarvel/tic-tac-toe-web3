@@ -3,13 +3,39 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import {RecoilRoot} from "recoil";
+import {SnackbarProvider} from "notistack";
+import {Web3Provider} from "./components/Web3Provider";
+import {MetaMaskProvider} from './components/MetaMaskProvider';
+
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+        background: {
+            default: '#000000'
+        }
+    },
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+      <ThemeProvider theme={theme}>
+          <CssBaseline/>
+
+          <MetaMaskProvider>
+              <RecoilRoot>
+                  <SnackbarProvider>
+                      <Web3Provider>
+                          <App/>
+                      </Web3Provider>
+                  </SnackbarProvider>
+              </RecoilRoot>
+          </MetaMaskProvider>
+      </ThemeProvider>
   </React.StrictMode>
 );
 

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="01b17979-732b-4e8c-b4a8-8da54b95294a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/contracts/TicTacToe.sol" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Board/Board.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Board/IconO.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Board/IconX.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Board/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Board/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ConnectWalletButton/ConnectWalletButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ConnectWalletButton/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Layout/Layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Layout/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Layout/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Sessions/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Sessions/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/SwitchMark/SwitchMark.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/SwitchMark/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Web3Provider/Web3Provider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Web3Provider/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Web3Provider/useWeb3.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/requests/TicTacToe.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/requests/makeMove.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/accounts.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/board.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/chainID.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/mark.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/sessions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/isMetaMaskInstalled.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/react-app-env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/react-app-env.d.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2GuFueMkHSE0ri1SxBgtJQjarge" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/xarvel/ResilioSync/tic-tac-toe/src/requests",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/xarvel/ResilioSync/tic-tac-toe/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/requests" />
+      <recent name="$PROJECT_DIR$/contracts" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/Playground" />
+      <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$/src/Board" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="01b17979-732b-4e8c-b4a8-8da54b95294a" name="Changes" comment="" />
+      <created>1667230786149</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667230786149</updated>
+      <workItem from="1667230787957" duration="25133000" />
+      <workItem from="1667409050750" duration="1680000" />
+      <workItem from="1667464332927" duration="603000" />
+      <workItem from="1667464950801" duration="2578000" />
+      <workItem from="1667544856667" duration="3691000" />
+      <workItem from="1667549658318" duration="323000" />
+      <workItem from="1667555633442" duration="246000" />
+      <workItem from="1667555909773" duration="71128000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
