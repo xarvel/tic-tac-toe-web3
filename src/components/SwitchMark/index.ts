@@ -1,1 +1,1 @@
-export {SwitchMark} from './SwitchMark'
+export { SwitchMark } from "./SwitchMark";

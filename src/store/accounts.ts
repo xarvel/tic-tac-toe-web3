@@ -1,8 +1,6 @@
-import {
-    atom,
-} from 'recoil';
+import { atom } from "recoil";
 
 export const accountsAtom = atom<string[]>({
-    key: 'accounts',
-    default: [],
+  key: "accounts",
+  default: [],
 });

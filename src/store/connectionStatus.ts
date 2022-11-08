@@ -1,9 +1,13 @@
-import {atom} from "recoil";
+import { atom } from "recoil";
 
-type ConnectionStatus = 'initial' | 'not_installed' | 'onboarding' | 'connect' | 'connected'
-
+type ConnectionStatus =
+  | "initial"
+  | "not_installed"
+  | "onboarding"
+  | "connect"
+  | "connected";
 
 export const connectionStatusAtom = atom<ConnectionStatus>({
-    key: 'connectionStatus',
-    default: 'initial'
+  key: "connectionStatus",
+  default: "initial",
 });

@@ -1,1 +1,1 @@
-export {ConnectWalletModal} from './ConnectWalletModal';
+export { ConnectWalletModal } from "./ConnectWalletModal";

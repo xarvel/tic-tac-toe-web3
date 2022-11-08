@@ -1,41 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
-import {RecoilRoot} from "recoil";
-import {SnackbarProvider} from "notistack";
-import {Web3Provider} from "./components/Web3Provider";
-import {MetaMaskProvider} from './components/MetaMaskProvider';
-
-const theme = createTheme({
-    palette: {
-        mode: 'dark',
-        background: {
-            default: '#000000'
-        }
-    },
-});
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { CssBaseline } from "@mui/material";
+import { RecoilRoot } from "recoil";
+import { SnackbarProvider } from "notistack";
+import { Web3Provider } from "./components/Web3Provider";
+import { MetaMaskProvider } from "./components/MetaMaskProvider";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-      <ThemeProvider theme={theme}>
-          <CssBaseline/>
+    <RecoilRoot>
+    <ThemeProvider>
+      <CssBaseline />
 
-          <MetaMaskProvider>
-              <RecoilRoot>
-                  <SnackbarProvider>
-                      <Web3Provider>
-                          <App/>
-                      </Web3Provider>
-                  </SnackbarProvider>
-              </RecoilRoot>
-          </MetaMaskProvider>
-      </ThemeProvider>
+      <MetaMaskProvider>
+
+          <SnackbarProvider>
+            <Web3Provider>
+              <App />
+            </Web3Provider>
+          </SnackbarProvider>
+
+      </MetaMaskProvider>
+    </ThemeProvider>
+    </RecoilRoot>
   </React.StrictMode>
 );
 

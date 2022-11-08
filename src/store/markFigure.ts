@@ -1,11 +1,11 @@
-import {atom} from "recoil";
+import { atom } from "recoil";
 
 export enum MarkFigure {
-    NOUGHT ,
-    CROSS
+  NOUGHT,
+  CROSS,
 }
 
 export const markFigureAtom = atom<MarkFigure>({
-    key: 'mark',
-    default: MarkFigure.NOUGHT
+  key: "mark",
+  default: MarkFigure.NOUGHT,
 });

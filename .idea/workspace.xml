@@ -61,6 +61,7 @@
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/xarvel/ResilioSync/tic-tac-toe/node_modules/prettier",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "/Users/xarvel/ResilioSync/tic-tac-toe/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
@@ -92,7 +93,7 @@
       <workItem from="1667544856667" duration="3691000" />
       <workItem from="1667549658318" duration="323000" />
       <workItem from="1667555633442" duration="246000" />
-      <workItem from="1667555909773" duration="71128000" />
+      <workItem from="1667555909773" duration="82321000" />
     </task>
     <servers />
   </component>

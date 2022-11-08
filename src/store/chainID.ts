@@ -1,6 +1,6 @@
-import {atom} from "recoil";
+import { atom } from "recoil";
 
 export const chainIDAtom = atom<number | null>({
-    key: 'chainID',
-    default: null
+  key: "chainID",
+  default: null,
 });

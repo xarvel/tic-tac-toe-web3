@@ -1,14 +1,11 @@
-import {
-    atom,
-} from 'recoil';
-
+import { atom } from "recoil";
 
 type Session = {
-    sessionID: number,
-    player: string
-}
+  sessionID: number;
+  player: string;
+};
 
 export const sessionsAtom = atom<Session[]>({
-    key: 'sessions',
-    default: [],
+  key: "sessions",
+  default: [],
 });

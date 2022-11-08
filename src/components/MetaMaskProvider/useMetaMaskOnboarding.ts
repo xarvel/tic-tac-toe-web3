@@ -1,6 +1,6 @@
-import {useContext} from "react";
-import {MetaMaskProviderContext} from "./MetaMaskProvider";
+import { useContext } from "react";
+import { MetaMaskProviderContext } from "./MetaMaskProvider";
 
 export const useMetaMaskOnboarding = () => {
-    return useContext(MetaMaskProviderContext).onboarding
-}
+  return useContext(MetaMaskProviderContext).onboarding;
+};

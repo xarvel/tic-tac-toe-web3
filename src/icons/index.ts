@@ -1,1 +1,1 @@
-export {MetamaskIcon} from './MetamaskIcon';
+export { MetamaskIcon } from "./MetamaskIcon";
