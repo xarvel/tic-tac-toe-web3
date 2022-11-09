@@ -2,10 +2,10 @@
   "name": "tic-tac-toe",
   "version": "0.1.0",
   "private": true,
-    "husky": {
-      "hooks": {
-        "pre-commit": "lint-staged"
-     }
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -20,6 +20,7 @@
     "@types/node": "^16.18.3",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
+    "@walletconnect/sign-client": "^2.1.1",
     "husky": "^8.0.2",
     "lint-staged": "^13.0.3",
     "notistack": "^2.0.8",
@@ -36,11 +37,11 @@
     "web3-eth-contract": "^1.8.0",
     "web3-utils": "^1.8.0"
   },
-   "lint-staged": {
-     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-       "prettier --write"
-     ]
-   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

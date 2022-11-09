@@ -8,11 +8,14 @@ import abi from "./requests/TicTacToe.json";
 import { AbiItem } from "web3-utils";
 import { CONTRACT_ADDRESS } from "./config";
 import { useWeb3 } from "./components/Web3Provider/useWeb3";
-import { Box, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import { ConnectWalletButton } from "./components/ConnectWalletButton";
 import { SwitchMark } from "./components/SwitchMark";
-import {Players} from "./components/Players";
-import {SwitchTheme} from './components/SwitchTheme';
+import { Players } from "./components/Players";
+import { SwitchTheme } from "./components/SwitchTheme";
+import { truncateEthAddress } from "./utils/truncateEthAddress";
+import { ETHEREUM_CHAIN } from "./components/ConnectWalletButton/ConnectWalletButton";
+
 function App() {
   const [currentSessionID, setCurrentSessionID] = useState(-1);
   const accounts = useRecoilValue(accountsAtom);
@@ -27,29 +30,45 @@ function App() {
     [account, web3]
   );
 
-
   return (
     <Layout
       rightSidebar={
-        <>
-          <Box p={5}>
+        <Box display="flex" flexDirection="column" height="100%">
+          <Box mb={3} p={1} textAlign="right">
             <ConnectWalletButton />
           </Box>
+          <Box mb={3} p={1} textAlign="right">
+            <SwitchTheme />
+          </Box>
+          <Box>
+            <Players />
+          </Box>
 
-            <SwitchTheme/>
-            <Box>
-                <Players/>
-            </Box>
+          <Box flexGrow={1} />
 
-            <Box p={5}>
-                <SwitchMark />
-            </Box>
-        </>
+          <Box mb={3} p={1} textAlign="right">
+            <SwitchMark />
+          </Box>
+
+          <Box p={1} textAlign="right">
+            <Typography variant="body1">
+              Contact:{" "}
+              <Link
+                target="_blank"
+                href={`${ETHEREUM_CHAIN.blockExplorerUrls[0]}/address/${CONTRACT_ADDRESS}`}
+              >
+                {truncateEthAddress(CONTRACT_ADDRESS)}
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
       }
       centerContent={
         <>
           <Typography
-            variant="h2"
+            component="h1"
+            variant="h3"
+            gutterBottom
             style={{
               textAlign: "center",
             }}
@@ -64,12 +83,27 @@ function App() {
         </>
       }
       leftSidebar={
-        <Sessions
-          contract={contract}
-          sessionID={currentSessionID}
-          onChangeSessionID={setCurrentSessionID}
-          account={accounts[0]}
-        />
+        <Box display="flex" flexDirection="column" height="100%">
+          <Sessions
+            contract={contract}
+            sessionID={currentSessionID}
+            onChangeSessionID={setCurrentSessionID}
+            account={accounts[0]}
+          />
+          <Box flexGrow={1} />
+
+          <Box p={1}>
+            <Typography variant="body1">
+              Code can be found at{" "}
+              <Link
+                href="https://github.com/xarvel/tic-tac-toe-web3"
+                target="_blank"
+              >
+                https://github.com/xarvel/tic-tac-toe-web3
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
       }
     />
   );

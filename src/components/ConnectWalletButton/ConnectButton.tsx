@@ -8,12 +8,14 @@ import { chainIDAtom } from "../../store/chainID";
 import { useSnackbar } from "notistack";
 import { truncateText } from "../../utils/truncateText";
 import { MetamaskIcon } from "../../icons";
+import { useMetaMaskOnboarding } from "../MetaMaskProvider/useMetaMaskOnboarding";
 
 export const ConnectButton: FC = () => {
   const web3 = useWeb3();
   const setAccounts = useSetRecoilState(accountsAtom);
   const setChainID = useSetRecoilState(chainIDAtom);
   const { enqueueSnackbar } = useSnackbar();
+  const onboarding = useMetaMaskOnboarding();
 
   const [open, setOpen] = useState(false);
 
@@ -29,10 +31,10 @@ export const ConnectButton: FC = () => {
       const chainID = await web3.eth.getChainId();
 
       setChainID(chainID);
-      //
-      // if (onboarding) {
-      //     onboarding.stopOnboarding()
-      // }
+
+      if (onboarding) {
+        onboarding.stopOnboarding();
+      }
     } catch (error: any) {
       let errorText = "Something happened";
 
@@ -48,7 +50,7 @@ export const ConnectButton: FC = () => {
         variant: "error",
       });
     }
-  }, []);
+  }, [enqueueSnackbar, onboarding, setAccounts, setChainID, web3.eth]);
 
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => setOpen(false), []);

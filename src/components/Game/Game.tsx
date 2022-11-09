@@ -17,9 +17,9 @@ import { useSnackbar } from "notistack";
 import { truncateText } from "../../utils/truncateText";
 import { EventData } from "web3-eth-contract";
 import { isAddresessEqual } from "../../utils/isAddresessEqual";
-import {GameContainer} from "./GameContainer";
-import {GamePlayground} from "./GamePlayground";
-import {currentSessionAtom} from "../../store/currentSession";
+import { GameContainer } from "./GameContainer";
+import { GamePlayground } from "./GamePlayground";
+import { currentSessionAtom } from "../../store/currentSession";
 
 const combinePlayground = (
   playground: PlaygroundData,

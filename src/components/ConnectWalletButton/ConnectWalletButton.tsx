@@ -23,7 +23,7 @@ const GOERLI_CHAIN = {
   },
   blockExplorerUrls: ["https://goerli.etherscan.io"],
 };
-const ETHEREUM_CHAIN = GOERLI_CHAIN;
+export const ETHEREUM_CHAIN = GOERLI_CHAIN;
 // const ETHEREUM_CHAIN = {
 //     chainId: Web3.utils.numberToHex(1337),
 //     chainName: "TIC-TAC-TOE",

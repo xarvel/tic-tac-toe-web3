@@ -16,19 +16,17 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <RecoilRoot>
-    <ThemeProvider>
-      <CssBaseline />
+      <ThemeProvider>
+        <CssBaseline />
 
-      <MetaMaskProvider>
-
+        <MetaMaskProvider>
           <SnackbarProvider>
             <Web3Provider>
               <App />
             </Web3Provider>
           </SnackbarProvider>
-
-      </MetaMaskProvider>
-    </ThemeProvider>
+        </MetaMaskProvider>
+      </ThemeProvider>
     </RecoilRoot>
   </React.StrictMode>
 );

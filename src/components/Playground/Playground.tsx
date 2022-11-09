@@ -7,20 +7,35 @@ import { MarkFigure } from "../../store/markFigure";
 import { IconO } from "../../icons/IconO";
 import { IconX } from "../../icons/IconX";
 import "./style.css";
-import {Box, styled} from "@mui/material";
+import { Box, styled } from "@mui/material";
 
 const PlaygroundContainer = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? 'white' : 'black',
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-        width: 'auto',
-        maxWidth: '100%',
-    },
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gridTemplateRows: "repeat(3, 1fr)",
+
+  gridGap: " 5px",
+  aspectRatio: "1 / 1",
+
+  backgroundColor: theme.palette.mode === "dark" ? "white" : "#121212",
+  width: "100%",
+  [theme.breakpoints.up("md")]: {
+    width: "auto",
+    maxWidth: "100%",
+  },
 }));
 
+const PlaygroundItem = styled("button")(({ theme }) => ({
+  cursor: "pointer",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "10%",
 
-const PlaygroundItem = styled('button')(({ theme }) => ({
-    backgroundColor: theme.palette.mode !== 'dark' ? 'white' : 'black',
+  border: "none",
+  aspectRatio: "1 / 1",
+
+  backgroundColor: theme.palette.background.default,
 }));
 
 type PlaygroundProps = {
@@ -53,7 +68,7 @@ export const Playground: FC<PlaygroundProps> = ({
       if (item === Mark.YOUR) {
         return markFigure === MarkFigure.NOUGHT ? (
           <IconO
-              color='secondary'
+            color="primary"
             sx={{
               height: "100%",
               width: "100%",
@@ -61,9 +76,8 @@ export const Playground: FC<PlaygroundProps> = ({
           />
         ) : (
           <IconX
-              color='primary'
+            color="primary"
             sx={{
-
               height: "100%",
               width: "100%",
             }}
@@ -72,19 +86,19 @@ export const Playground: FC<PlaygroundProps> = ({
       } else {
         return markFigure === MarkFigure.NOUGHT ? (
           <IconX
-              color='secondary'
-              sx={{
-                  height: "100%",
-                  width: "100%",
-              }}
+            color="secondary"
+            sx={{
+              height: "100%",
+              width: "100%",
+            }}
           />
         ) : (
           <IconO
-              color='secondary'
-              sx={{
-                  height: "100%",
-                  width: "100%",
-              }}
+            color="secondary"
+            sx={{
+              height: "100%",
+              width: "100%",
+            }}
           />
         );
       }
@@ -92,7 +106,7 @@ export const Playground: FC<PlaygroundProps> = ({
   };
 
   return (
-    <PlaygroundContainer className="playground">
+    <PlaygroundContainer>
       {playground.map((cols, rowIndex) =>
         cols.map((item, colIndex) => (
           <PlaygroundItem
