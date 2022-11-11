@@ -10,7 +10,6 @@ import { MarkFigure, markFigureAtom } from "../../store/markFigure";
 
 export const Players: FC = () => {
   const markFigure = useRecoilValue(markFigureAtom);
-
   const currentSession = useRecoilValue(currentSessionAtom);
   if (currentSession === null) {
     return null;

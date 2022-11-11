@@ -1,9 +1,8 @@
-import { FC, useCallback } from "react";
+import React, { FC, useCallback } from "react";
 import { useRecoilState } from "recoil";
 import { markFigureAtom } from "../../store/markFigure";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import { MarkFigure } from "../../store/markFigure";
-import * as React from "react";
 import { IconX } from "../../icons/IconX";
 import { IconO } from "../../icons/IconO";
 

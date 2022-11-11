@@ -1,9 +1,6 @@
-import Web3 from "web3";
-import abi from "./TicTacToe.json";
-import { AbiItem } from "web3-utils";
-import { CONTRACT_ADDRESS } from "../config";
-import { Mark, PlaygroundData } from "../store/playgroundData";
+import { Mark, PlaygroundData } from "../../store/playgroundData";
 import _ from "lodash";
+import { Contract } from "web3-eth-contract";
 
 export type Session = {
   player1: string;
@@ -15,18 +12,16 @@ export type Session = {
   nextPlayer: string;
 };
 
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 const addressEqual = (address1: string, address2: string) =>
   address1.toLowerCase() === address2.toLowerCase();
 
 export const getSession = async (
-  web3: Web3,
+  contract: Contract,
   sessionID: number,
   account: string
 ): Promise<Session> => {
-  const contract = new web3.eth.Contract(abi as AbiItem[], CONTRACT_ADDRESS, {
-    from: account,
-  });
-
   const session = await contract.methods.getSession(sessionID).call({
     from: account,
   });
@@ -46,10 +41,7 @@ export const getSession = async (
 
       if (
         addressEqual(account, session.player2) ||
-        addressEqual(
-          session.player2,
-          "0x0000000000000000000000000000000000000000"
-        )
+        addressEqual(session.player2, ZERO_ADDRESS)
       ) {
         if (col === "1") {
           return Mark.OPPONENT;
@@ -82,12 +74,7 @@ export const getSession = async (
     player2: session.player2,
     account: account,
     opponent,
-    winner: addressEqual(
-      session.winner,
-      "0x0000000000000000000000000000000000000000"
-    )
-      ? null
-      : session.winner,
+    winner: addressEqual(session.winner, ZERO_ADDRESS) ? null : session.winner,
     playground,
   };
 };

@@ -1,55 +1,31 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  EmptyBoard,
-  Mark,
-  playgroundAtom,
-  PlaygroundData,
-} from "../../store/playgroundData";
+import { EmptyBoard, Mark, playgroundAtom } from "../../store/playgroundData";
 import { markFigureAtom } from "../../store/markFigure";
-import { useWeb3 } from "../Web3Provider/useWeb3";
-import { GameMove, makeMove } from "../../requests/makeMove";
-import { getSession } from "../../requests/getSession";
-import { Box, Button } from "@mui/material";
+import { getSession } from "./getSession";
+import { Button } from "@mui/material";
 import { connectionStatusAtom } from "../../store/connectionStatus";
 import { Playground } from "../Playground";
 import { useSnackbar } from "notistack";
 import { truncateText } from "../../utils/truncateText";
-import { EventData } from "web3-eth-contract";
+import { Contract, EventData } from "web3-eth-contract";
 import { isAddresessEqual } from "../../utils/isAddresessEqual";
 import { GameContainer } from "./GameContainer";
 import { GamePlayground } from "./GamePlayground";
 import { currentSessionAtom } from "../../store/currentSession";
-
-const combinePlayground = (
-  playground: PlaygroundData,
-  gameMove: GameMove | null,
-  mark: Mark
-) => {
-  return playground.map((row, rowIndex) =>
-    row.map((col, colIndex) => {
-      if (gameMove) {
-        if (gameMove.row === rowIndex && gameMove.col === colIndex) {
-          return mark;
-        }
-      }
-
-      return col;
-    })
-  );
-};
+import { combinePlayground, GameMove } from "./lib";
+import { GameActions } from "./GameActions";
 
 type GameProps = {
   sessionID: number;
   account: string;
-  contract: any;
+  contract: Contract;
 };
 
 export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
   const [playground, setPlayground] = useRecoilState(playgroundAtom);
   const setCurrentSession = useSetRecoilState(currentSessionAtom);
   const markFigure = useRecoilValue(markFigureAtom);
-  const web3 = useWeb3();
   const connectionStatus = useRecoilValue(connectionStatusAtom);
   const [nextMove, setNextMove] = useState<GameMove | null>(null);
   const { enqueueSnackbar } = useSnackbar();
@@ -59,8 +35,6 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
   );
   const [yourTurn, setYourTurn] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-
-  console.log("gameOver", gameOver);
 
   const commitMove = useCallback(
     (gameMove: GameMove, mark: Mark) => {
@@ -73,18 +47,18 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
 
   const reloadSession = useCallback(() => {
     if (sessionID !== -1) {
-      getSession(web3, sessionID, account).then((session) => {
-        console.log("session", session);
+      getSession(contract, sessionID, account).then((session) => {
         setCurrentSession(session);
         setGameOver(!!session.winner);
         setYourTurn(isAddresessEqual(session.nextPlayer, account));
         setPlayground(session.playground);
       });
     } else {
+      setCurrentSession(null);
       setYourTurn(true);
       setPlayground(EmptyBoard);
     }
-  }, [account, sessionID, setPlayground, web3]);
+  }, [sessionID, contract, account, setCurrentSession, setPlayground]);
 
   useEffect(() => {
     let subscription: any;
@@ -99,7 +73,6 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
           // toBlock: 'latest'
         })
         .on("data", (event: EventData) => {
-          console.log("GameMove fired", event);
           if (event.returnValues.sessionID === sessionID.toString()) {
             if (isAddresessEqual(event.returnValues.player, account)) {
               commitMove(
@@ -122,21 +95,19 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
             }
           }
         })
-        .on("changed", function (event: any) {
-          console.log("GameMove changed", event);
-        })
         .on("error", function (error: any, receipt: any) {
-          console.log("GameMove error", error, receipt);
+          enqueueSnackbar("GameMove error", {
+            variant: "error",
+          });
         });
     }
 
     return () => {
       if (subscription) {
         subscription.unsubscribe();
-        console.log("GameMove unsubscribed");
       }
     };
-  }, [contract, sessionID, account]);
+  }, [contract, sessionID, account, commitMove, enqueueSnackbar]);
 
   useEffect(() => {
     let subscription: any;
@@ -164,21 +135,22 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
             }
           }
         })
-        .on("changed", function (event: any) {
-          console.log("HasWinner changed", event);
-        })
         .on("error", function (error: any, receipt: any) {
-          console.log("HasWinner error", error, receipt);
+          if (error.message) {
+            console.error("HasWinner", error, receipt);
+            enqueueSnackbar(error.message, {
+              variant: "error",
+            });
+          }
         });
     }
 
     return () => {
       if (subscription) {
         subscription.unsubscribe();
-        console.log("HasWinner unsubscribed");
       }
     };
-  }, [contract, sessionID]);
+  }, [account, contract, enqueueSnackbar, sessionID]);
 
   useEffect(() => {
     setNextMove(null);
@@ -188,20 +160,15 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
     if (connectionStatus === "connected") {
       reloadSession();
     }
-  }, [connectionStatus, account, sessionID]);
+  }, [connectionStatus, account, sessionID, reloadSession]);
 
   const handleCommitMove = useCallback(async () => {
     if (nextMove) {
       try {
-        await makeMove(
-          contract,
-          {
-            row: nextMove.row,
-            col: nextMove.col,
-          },
-          sessionID,
-          account
-        );
+        await contract.methods.makeMove(sessionID, nextMove).send({
+          from: account,
+        });
+
         commitMove(nextMove, Mark.YOUR);
       } catch (e: any) {
         enqueueSnackbar(truncateText(e.message, 100), {
@@ -211,7 +178,14 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
         setNextMove(null);
       }
     }
-  }, [account, nextMove, contract, sessionID, commitMove]);
+  }, [
+    nextMove,
+    contract.methods,
+    sessionID,
+    account,
+    commitMove,
+    enqueueSnackbar,
+  ]);
 
   const handleMakeMove = useCallback((row: number, col: number) => {
     setNextMove({
@@ -227,7 +201,7 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
       !gameOver &&
       connectionStatus === "connected"
     );
-  }, [nextMove, yourTurn, gameOver]);
+  }, [nextMove, yourTurn, gameOver, connectionStatus]);
 
   const makeMoveButtonText = useMemo(() => {
     if (connectionStatus !== "connected") {
@@ -257,14 +231,7 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
           onMove={handleMakeMove}
         />
       </GamePlayground>
-      <Box
-        className="game__buttons"
-        sx={{
-          p: 5,
-          textAlign: "center",
-          height: "20%",
-        }}
-      >
+      <GameActions>
         <Button
           variant="contained"
           type="button"
@@ -273,7 +240,7 @@ export const Game: FC<GameProps> = ({ sessionID, account, contract }) => {
         >
           {makeMoveButtonText}
         </Button>
-      </Box>
+      </GameActions>
     </GameContainer>
   );
 };

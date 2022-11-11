@@ -4,20 +4,22 @@ import { Layout } from "./components/Layout";
 import { useRecoilValue } from "recoil";
 import { accountsAtom } from "./store/accounts";
 import { Sessions } from "./components/Sessions";
-import abi from "./requests/TicTacToe.json";
+import abi from "./config/TicTacToeABI.json";
 import { AbiItem } from "web3-utils";
 import { CONTRACT_ADDRESS } from "./config";
 import { useWeb3 } from "./components/Web3Provider/useWeb3";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ConnectWalletButton } from "./components/ConnectWalletButton";
 import { SwitchMark } from "./components/SwitchMark";
 import { Players } from "./components/Players";
 import { SwitchTheme } from "./components/SwitchTheme";
-import { truncateEthAddress } from "./utils/truncateEthAddress";
-import { ETHEREUM_CHAIN } from "./components/ConnectWalletButton/ConnectWalletButton";
+import { ContactLink } from "./components/ContactLink";
+import { GithubLink } from "./components/GithubLink";
+
+export const NEW_SESSION_ID = -1;
 
 function App() {
-  const [currentSessionID, setCurrentSessionID] = useState(-1);
+  const [currentSessionID, setCurrentSessionID] = useState(NEW_SESSION_ID);
   const accounts = useRecoilValue(accountsAtom);
   const web3 = useWeb3();
   const account = accounts[0];
@@ -46,20 +48,12 @@ function App() {
 
           <Box flexGrow={1} />
 
-          <Box mb={3} p={1} textAlign="right">
+          <Box p={1} textAlign="right">
             <SwitchMark />
           </Box>
 
           <Box p={1} textAlign="right">
-            <Typography variant="body1">
-              Contact:{" "}
-              <Link
-                target="_blank"
-                href={`${ETHEREUM_CHAIN.blockExplorerUrls[0]}/address/${CONTRACT_ADDRESS}`}
-              >
-                {truncateEthAddress(CONTRACT_ADDRESS)}
-              </Link>
-            </Typography>
+            <ContactLink />
           </Box>
         </Box>
       }
@@ -78,7 +72,7 @@ function App() {
           <Game
             contract={contract}
             sessionID={currentSessionID}
-            account={accounts[0]}
+            account={account}
           />
         </>
       }
@@ -86,22 +80,14 @@ function App() {
         <Box display="flex" flexDirection="column" height="100%">
           <Sessions
             contract={contract}
-            sessionID={currentSessionID}
+            currentSessionID={currentSessionID}
             onChangeSessionID={setCurrentSessionID}
-            account={accounts[0]}
+            account={account}
           />
           <Box flexGrow={1} />
 
           <Box p={1}>
-            <Typography variant="body1">
-              Code can be found at{" "}
-              <Link
-                href="https://github.com/xarvel/tic-tac-toe-web3"
-                target="_blank"
-              >
-                https://github.com/xarvel/tic-tac-toe-web3
-              </Link>
-            </Typography>
+            <GithubLink />
           </Box>
         </Box>
       }

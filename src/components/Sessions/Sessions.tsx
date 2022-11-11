@@ -14,9 +14,11 @@ import {
   styled,
   IconProps,
 } from "@mui/material";
-import { EventData } from "web3-eth-contract";
+import { Contract, EventData } from "web3-eth-contract";
 import { isAddresessEqual } from "../../utils/isAddresessEqual";
 import { RefreshIcon as RefreshIconBase } from "../../icons";
+import { NEW_SESSION_ID } from "../../App";
+import { useSnackbar } from "notistack";
 
 type StyledSpinnerProps = {
   loading: boolean;
@@ -40,42 +42,37 @@ const RefreshIcon = styled(RefreshIconBase)(
 
 type SessionsProps = {
   account: string;
-  sessionID: number;
+  currentSessionID: number;
   onChangeSessionID: (sessionID: number) => void;
-  contract: any;
+  contract: Contract;
 };
 
 export const Sessions: FC<SessionsProps> = ({
   account,
   onChangeSessionID,
-  sessionID,
+  currentSessionID,
   contract,
 }) => {
   const [sessions, setSession] = useRecoilState(sessionsAtom);
   const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleReloadAvailableSessions = useCallback(async () => {
     if (account) {
       try {
         setLoading(true);
         const result: string[] = await contract.methods
-            .getAvailableSessions(account)
-            .call({
-              from: account,
-            });
+          .getAvailableSessions(account)
+          .call({
+            from: account,
+          });
 
-        setSession(
-            result.map((sessionID) => ({
-              sessionID: Number(sessionID),
-              player: "",
-            }))
-        );
-      }finally {
+        setSession(result.map((sessionID) => Number(sessionID)));
+      } finally {
         setLoading(false);
       }
-
     }
-  }, [account, contract.methods, setSession]);
+  }, [account, contract, setSession]);
 
   useEffect(() => {
     handleReloadAvailableSessions();
@@ -85,8 +82,6 @@ export const Sessions: FC<SessionsProps> = ({
     const subscription = contract.events
       .SessionCreated({})
       .on("data", (event: EventData) => {
-        console.log("SessionCreated fired", event);
-
         if (
           isAddresessEqual(event.returnValues.playerSessionCreator, account)
         ) {
@@ -95,18 +90,27 @@ export const Sessions: FC<SessionsProps> = ({
 
         setTimeout(() => handleReloadAvailableSessions(), 1000);
       })
-      .on("changed", function (event: any) {
-        console.log("SessionCreated changed", event);
-      })
       .on("error", function (error: any, receipt: any) {
-        console.log("SessionCreated error", error, receipt);
+        enqueueSnackbar("SessionCreated error", {
+          variant: "error",
+        });
       });
 
     return () => {
       subscription.unsubscribe();
-      console.log("SessionCreated unsubscribed");
     };
-  }, [account, contract, onChangeSessionID, handleReloadAvailableSessions]);
+  }, [
+    account,
+    contract,
+    onChangeSessionID,
+    handleReloadAvailableSessions,
+    enqueueSnackbar,
+  ]);
+
+  const handleNextSession = useCallback(
+    () => onChangeSessionID(NEW_SESSION_ID),
+    [onChangeSessionID]
+  );
 
   return (
     <div className="sessions">
@@ -118,6 +122,7 @@ export const Sessions: FC<SessionsProps> = ({
             </Box>
 
             <IconButton
+              disabled={loading}
               size="small"
               onClick={handleReloadAvailableSessions}
               color="inherit"
@@ -128,33 +133,29 @@ export const Sessions: FC<SessionsProps> = ({
         }
       >
         <ListItem>
-          <ListItemButton onClick={() => onChangeSessionID(-1)}>
+          <ListItemButton onClick={handleNextSession}>
             <ListItemIcon>
               <Radio
                 edge="start"
-                checked={sessionID === -1}
-                tabIndex={-1}
+                checked={currentSessionID === NEW_SESSION_ID}
                 disableRipple
               />
             </ListItemIcon>
             <ListItemText primary="New Session" />
           </ListItemButton>
         </ListItem>
-        {sessions.map((session) => (
-          <ListItem key={session.sessionID}>
-            <ListItemButton
-              onClick={() => onChangeSessionID(session.sessionID)}
-            >
+        {sessions.map((sessionID) => (
+          <ListItem key={sessionID}>
+            <ListItemButton onClick={() => onChangeSessionID(sessionID)}>
               <ListItemIcon>
                 <Radio
                   edge="start"
-                  checked={sessionID === session.sessionID}
-                  tabIndex={-1}
+                  checked={currentSessionID === sessionID}
                   disableRipple
                 />
               </ListItemIcon>
 
-              <ListItemText primary={`#${session.sessionID}`} />
+              <ListItemText primary={`#${sessionID}`} />
             </ListItemButton>
           </ListItem>
         ))}

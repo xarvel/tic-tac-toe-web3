@@ -1,7 +1,5 @@
-import React, { FC, PropsWithChildren } from "react";
-import { ConnectWalletButton } from "../ConnectWalletButton";
-import { SwitchMark } from "../SwitchMark";
-import { Box, Typography, styled } from "@mui/material";
+import React, { FC } from "react";
+import { Box, styled } from "@mui/material";
 
 const Container = styled(Box)(({ theme }) => ({
   display: "flex",

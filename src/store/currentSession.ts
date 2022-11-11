@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { Session } from "../requests/getSession";
+import { Session } from "../components/Game/getSession";
 
 export const currentSessionAtom = atom<Session | null>({
   key: "currentSession",

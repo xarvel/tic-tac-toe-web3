@@ -6,7 +6,6 @@ import {
 import { MarkFigure } from "../../store/markFigure";
 import { IconO } from "../../icons/IconO";
 import { IconX } from "../../icons/IconX";
-import "./style.css";
 import { Box, styled } from "@mui/material";
 
 const PlaygroundContainer = styled(Box)(({ theme }) => ({
@@ -14,14 +13,15 @@ const PlaygroundContainer = styled(Box)(({ theme }) => ({
   gridTemplateColumns: "repeat(3, 1fr)",
   gridTemplateRows: "repeat(3, 1fr)",
 
-  gridGap: " 5px",
+  gridGap: "5px",
   aspectRatio: "1 / 1",
 
   backgroundColor: theme.palette.mode === "dark" ? "white" : "#121212",
-  width: "100%",
+  width: "90%",
+
   [theme.breakpoints.up("md")]: {
-    width: "auto",
-    maxWidth: "100%",
+    width: "500px",
+    height: "500px",
   },
 }));
 
@@ -63,47 +63,23 @@ export const Playground: FC<PlaygroundProps> = ({
     [onMove]
   );
 
-  const renderSquare = (rowIndex: number, colIndex: number, item: any) => {
-    if (item !== Mark.EMPTY) {
-      if (item === Mark.YOUR) {
-        return markFigure === MarkFigure.NOUGHT ? (
-          <IconO
-            color="primary"
-            sx={{
-              height: "100%",
-              width: "100%",
-            }}
-          />
-        ) : (
-          <IconX
-            color="primary"
-            sx={{
-              height: "100%",
-              width: "100%",
-            }}
-          />
-        );
-      } else {
-        return markFigure === MarkFigure.NOUGHT ? (
-          <IconX
-            color="secondary"
-            sx={{
-              height: "100%",
-              width: "100%",
-            }}
-          />
-        ) : (
-          <IconO
-            color="secondary"
-            sx={{
-              height: "100%",
-              width: "100%",
-            }}
-          />
-        );
+  const renderSquare = useCallback(
+    (rowIndex: number, colIndex: number, item: Mark) => {
+      const iconSX = {
+        height: "100%",
+        width: "100%",
+      } as const;
+
+      if (item !== Mark.EMPTY) {
+        const color = item === Mark.YOUR ? "primary" : "secondary";
+        const YourIcon = markFigure === MarkFigure.NOUGHT ? IconO : IconX;
+        const OpponentIcon = markFigure !== MarkFigure.NOUGHT ? IconO : IconX;
+        const Icon = item === Mark.YOUR ? YourIcon : OpponentIcon;
+        return <Icon color={color} sx={iconSX} />;
       }
-    }
-  };
+    },
+    [markFigure]
+  );
 
   return (
     <PlaygroundContainer>

@@ -1,11 +1,6 @@
 import { atom } from "recoil";
 
-type Session = {
-  sessionID: number;
-  player: string;
-};
-
-export const sessionsAtom = atom<Session[]>({
+export const sessionsAtom = atom<number[]>({
   key: "sessions",
   default: [],
 });
